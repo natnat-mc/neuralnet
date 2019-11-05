@@ -263,13 +263,51 @@ PyObject* pnn_setSynapse(PyObject* self, PyObject* args) {
 	return Py_None;
 }
 
+PyObject* pnn_loadBuffer(PyObject* self, PyObject* args) {
+	UNUSED(self);
+	
+	// actual arguments
+	void* buf;
+	Py_ssize_t pyLen;
+	PyArg_ParseTuple(args, "y#", &buf, &pyLen);
+	
+	// call the actual functions
+	if(!neuralnet_loadBufferCheck(buf, (uint64_t) pyLen)) {
+		free(buf);
+		PyErr_SetString(PyExc_ValueError, "Invalid buffer");
+		return NULL;
+	}
+	neuralnet_t* N=neuralnet_loadBuffer(buf);
+	if(!N) return PyErr_NoMemory();
+	
+	// pass the network back to Python
+	return PyCapsule_New(N, TYPE_NAME, pnn_destruct);
+}
+
+PyObject* pnn_dumpBuffer(PyObject* self, PyObject* args) {
+	UNUSED(self);
+	
+	// actual arguments
+	neuralnet_t* N;
+	parseArgsMethod("");
+	
+	// fetch data from network
+	uint64_t len=neuralnet_dumpBufferLength(N);
+	void* buf=malloc(len);
+	if(!buf) return PyErr_NoMemory();
+	neuralnet_dumpBuffer(N, buf);
+	
+	// transfer back to Python
+	PyObject* bytes=PyBytes_FromStringAndSize(buf, len);
+	free(buf);
+	return bytes;
+}
+
 /* TODO for speed
 neuralnet_getNeuronSynapses
 neuralnet_setNeuronSynapses
 neuralnet_getLayerSynapses
 neuralnet_setLayerSynapses
-neuralnet_loadBuffer
-neuralnet_dumpBuffer
 */
 
 /* TODO for completeness

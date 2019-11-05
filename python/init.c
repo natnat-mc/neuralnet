@@ -11,6 +11,8 @@ static PyMethodDef pnn_methods[]={
 	{"tickFull", pnn_tickFull, METH_VARARGS, "Ticks a neural network with a tuple of inputs"},
 	{"getSynapse", pnn_getSynapse, METH_VARARGS, "Returns the coefficient of a single synapse"},
 	{"setSynapse", pnn_setSynapse, METH_VARARGS, "Sets the coefficient of a single synapse"},
+	{"loadBuffer", pnn_loadBuffer, METH_VARARGS, "Loads a network from a buffer"},
+	{"dumpBuffer", pnn_dumpBuffer, METH_VARARGS, "Dumps a network to a buffer"},
 	{NULL, NULL, 0, NULL}
 };
 

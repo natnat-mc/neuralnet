@@ -22,3 +22,5 @@ PyObject* pnn_getLayerSynapseCount(PyObject* self, PyObject* args);
 PyObject* pnn_tickFull(PyObject* self, PyObject* args);
 PyObject* pnn_getSynapse(PyObject* self, PyObject* args);
 PyObject* pnn_setSynapse(PyObject* self, PyObject* args);
+PyObject* pnn_loadBuffer(PyObject* self, PyObject* args);
+PyObject* pnn_dumpBuffer(PyObject* self, PyObject* args);
